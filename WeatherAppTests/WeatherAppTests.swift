@@ -10,6 +10,16 @@ import XCTest
 
 class WeatherAppTests: XCTestCase {
 
+    var mockServices: MockTest?
+    
+    override func setUp() {
+        mockServices = MockTest()
+    }
+    
+    override func tearDown() {
+         mockServices = nil
+    }
+    
     override func setUpWithError() throws {
         // Put setup code here. This method is called before the invocation of each test method in the class.
     }
@@ -28,6 +38,20 @@ class WeatherAppTests: XCTestCase {
         self.measure {
             // Put the code you want to measure the time of here.
         }
+    }
+     
+    func testMockData(){
+        
+        mockServices?.getWeatherdata(responseType: .valid, completion: {result in
+            XCTAssertNotNil(result, "Success")
+        })
+    }
+    
+    func testMockData_failed(){
+                mockServices?.getWeatherdata(responseType: .invalid, completion: {result in
+                    XCTAssertNil(result, "Failure")
+        
+                })
     }
 
 }
